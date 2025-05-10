@@ -10,8 +10,7 @@
   <!-- Calculator Header -->
   <div class="header">
     <div class="header-brand">
-      <img src="icons/logo-transparent-64x64.png" alt="Logo" class="logo">
-      <div class="brand-text">
+      <img src="icons/logo-transparent-64x64.png" alt="Logo" class="logo">      <div class="brand-text">
         <h1>./openQuote</h1>
         <h2>by freight.Cognition</h2>
       </div>
@@ -23,9 +22,15 @@
   </div>
 
   <!-- Miles Input Section -->
-  <div class="input-group">
-    <label for="miles">Miles (practical):</label>
-    <input type="number" id="miles" value="1786">
+  <div class="section">
+    <table class="calculation-table">
+      <tr>
+        <td><label for="miles">Total Miles:</label></td>
+        <td class="number-cell" colspan="2">
+          <input type="number" id="miles" value="1786" style="width: 6ch;">
+        </td>
+      </tr>
+    </table>
   </div>
 
   <!-- DAT Lane Average Section -->
@@ -33,8 +38,12 @@
     <div class="section-header">DAT LANE AVERAGE</div>
     <table class="calculation-table">
       <tr>
-        <td>Carrier Rate (Flat)</td>
-        <td></td>
+        <td>Carrier RPM & Flat</td>
+        <td class="number-cell">
+          <div class="dollar-input">
+            <input type="number" id="carrier-rate" value="1.50" step="0.01" readonly>
+          </div>
+        </td>
         <td class="number-cell">
           <div class="dollar-input">
             <input type="number" id="carrier-flat-rate" value="2679.00" step="0.01">
@@ -42,24 +51,20 @@
         </td>
       </tr>
       <tr>
-        <td>Carrier Rate (per mile)</td>
+        <td>Gross Profit %</td>
         <td class="number-cell">
-          <div class="dollar-input">
-            <input type="number" id="carrier-rate" value="1.50" step="0.01" readonly>
-          </div>
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Profit %</td>
-        <td class="number-cell" colspan="2">
           <div class="percent-input">
             <input type="number" id="profit-percentage" value="13.5" step="0.1">
           </div>
         </td>
+        <td class="number-cell">
+          <div class="dollar-input">
+            <input type="number" id="profit-total" value="361.66" step="0.01" readonly>
+          </div>
+        </td>
       </tr>
-      <tr>
-        <td>All-In Rate</td>
+      <tr class="total-row">
+        <td>ALL-IN RATE</td>
         <td class="number-cell">
           <div class="dollar-input">
             <input type="number" id="all-in-rate" value="1.70" step="0.01" readonly>
@@ -67,7 +72,7 @@
         </td>
         <td class="number-cell">
           <div class="dollar-input">
-            <input type="number" id="all-in-total" value="3036.20" step="0.01" readonly>
+            <input type="number" id="avg-trip-total" value="3036.20" step="0.01" readonly>
           </div>
         </td>
       </tr>
@@ -84,16 +89,8 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <td>Fuel Surcharge %</td>
-        <td class="number-cell" colspan="2">
-          <div class="percent-input">
-            <input type="number" id="fuel-percentage" value="15.3" step="0.1" readonly>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Linehaul Rate</td>
+      <tr class="linehaul-row">
+        <td>LINEHAUL RATE</td>
         <td class="number-cell">
           <div class="dollar-input">
             <input type="number" id="linehaul-rate" value="1.44" step="0.01" readonly>
@@ -105,15 +102,6 @@
           </div>
         </td>
       </tr>
-      <tr class="total-row">
-        <td>Total Avg Trip Rate</td>
-        <td></td>
-        <td class="number-cell">
-          <div class="dollar-input">
-            <input type="number" id="avg-trip-total" value="3036.20" step="0.01" readonly>
-          </div>
-        </td>
-      </tr>
     </table>
   </div>
 
@@ -122,7 +110,7 @@
     <div class="section-header">ACCESSORIALS</div>
     <table class="calculation-table">
       <tr>
-        <td># of Stops</td>
+        <td>Additional Stops</td>
         <td class="number-cell">
           <input type="number" id="stops" value="0">
         </td>
@@ -159,21 +147,8 @@
           </div>
         </td>
       </tr>
-      <tr>
-        <td>Apply % to Linehaul</td>
-        <td class="number-cell">
-          <div class="percent-input">
-            <input type="number" id="linehaul-percentage" value="0.0" step="0.1">
-          </div>
-        </td>
-        <td class="number-cell">
-          <div class="dollar-input">
-            <input type="number" id="linehaul-percentage-total" value="0.00" step="0.01" readonly>
-          </div>
-        </td>
-      </tr>
       <tr class="total-row">
-        <td>Accessorial Total</td>
+        <td>ACCESSORIALS TOTAL</td>
         <td></td>
         <td class="number-cell">
           <div class="dollar-input">
@@ -188,7 +163,7 @@
   <div class="section">
     <table class="calculation-table">
       <tr class="grand-total">
-        <td>Total Invoice Amount</td>
+        <td>TOTAL REVENUE</td>
         <td class="number-cell">
           <div class="dollar-input">
             <input type="number" id="per-mile-total" value="1.76" step="0.01" readonly>

@@ -144,12 +144,20 @@
   }
   
   /* Green fields for key totals */
-  #carrier-flat-rate,
   #avg-trip-total,
   #accessorial-total,
   #invoice-total,
-  #per-mile-total {
+  #per-mile-total,
+  #all-in-rate,
+  #linehaul-rate,
+  #linehaul-total,
+  #profit-total {
     color: rgb(34, 197, 94);
+  }
+  
+  /* White fields */
+  #carrier-flat-rate {
+    color: #ffffff;
   }
   
   input:focus {
@@ -176,7 +184,8 @@
   /* Golden text for important headers and labels */
   .section-header,
   .total-row td:first-child,
-  .grand-total td:first-child {
+  .grand-total td:first-child,
+  .linehaul-row td:first-child {
     color: #F2B01C;
   }
   
@@ -214,6 +223,7 @@
   
   .dollar-input {
     position: relative;
+    margin: 0 2px;
   }
   
   .dollar-input:before {
@@ -231,10 +241,13 @@
   
   .percent-input {
     position: relative;
+    max-width: 80px;
   }
   
   .percent-input input {
     padding-right: 20px;
+    width: 100%;
+    max-width: 80px;
   }
   
   .percent-input:after {
@@ -256,7 +269,8 @@
   
   .calculation-table td:nth-child(2), 
   .calculation-table td:nth-child(3) {
-    width: 120px;
+    width: 110px;
+    max-width: 110px;
   }
   
   .calculation-table input {
@@ -482,4 +496,45 @@
     border-top: 1px solid #30374a;
     display: flex;
     justify-content: space-between;
+  }
+
+  /* Linehaul Rate row styled like total-row */
+  .linehaul-row {
+    background-color: #232a3f;
+    font-weight: bold;
+  }
+
+  /* Remove spinner arrows from all writable number inputs */
+  input[type="number"]:not([readonly])::-webkit-inner-spin-button, 
+  input[type="number"]:not([readonly])::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"]:not([readonly]) {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .dollar-input input, 
+  .percent-input input {
+    text-align: right;
+    width: 100%;
+    min-width: 60px;
+    max-width: 100px;
+  }
+
+  /* Ensure all inputs in calculation tables are right-aligned */
+  .calculation-table input[type="number"] {
+    text-align: right;
+  }
+
+  /* Carrier rate presentation */
+  #carrier-rate {
+    font-size: 11px;
+    color: #ffffff; /* Changed from orange to white */
+  }
+
+  /* Make all read-only fields italic */
+  input[readonly] {
+    font-style: italic;
   }

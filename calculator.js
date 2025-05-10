@@ -3,11 +3,11 @@ const milesInput = document.getElementById('miles');
 const carrierFlatRateInput = document.getElementById('carrier-flat-rate');
 const carrierRateInput = document.getElementById('carrier-rate');
 const profitPercentageInput = document.getElementById('profit-percentage');
+const profitTotalInput = document.getElementById('profit-total');
 const allInRateInput = document.getElementById('all-in-rate');
 const allInTotalInput = document.getElementById('all-in-total');
 const fuelRateInput = document.getElementById('fuel-rate');
 const fuelTotalInput = document.getElementById('fuel-total');
-const fuelPercentageInput = document.getElementById('fuel-percentage');
 const linehaulRateInput = document.getElementById('linehaul-rate');
 const linehaulTotalInput = document.getElementById('linehaul-total');
 const avgTripTotalInput = document.getElementById('avg-trip-total');
@@ -16,8 +16,6 @@ const stopsTotalInput = document.getElementById('stops-total');
 const loadFeeInput = document.getElementById('load-fee');
 const unloadFeeInput = document.getElementById('unload-fee');
 const otherFeeInput = document.getElementById('other-fee');
-const linehaulPercentageInput = document.getElementById('linehaul-percentage');
-const linehaulPercentageTotalInput = document.getElementById('linehaul-percentage-total');
 const accessorialTotalInput = document.getElementById('accessorial-total');
 const perMileTotalInput = document.getElementById('per-mile-total');
 const invoiceTotalInput = document.getElementById('invoice-total');
@@ -32,8 +30,7 @@ const defaultValues = {
   stops: 0,
   loadFee: window.settings ? settings.defaultLoadFee : 50.00,
   unloadFee: window.settings ? settings.defaultUnloadFee : 50.00,
-  otherFee: 0.00,
-  linehaulPercentage: 0.0
+  otherFee: 0.00
 };
 
 // Calculate all values
@@ -46,11 +43,14 @@ function calculateAll() {
   const loadFee = parseFloat(loadFeeInput.value) || 0;
   const unloadFee = parseFloat(unloadFeeInput.value) || 0;
   const otherFee = parseFloat(otherFeeInput.value) || 0;
-  const linehaulPercentage = parseFloat(linehaulPercentageInput.value) || 0;
 
   // Calculate Carrier Rate per mile (flat rate ÷ miles)
   const carrierRate = miles > 0 ? carrierFlatRate / miles : 0;
   carrierRateInput.value = carrierRate.toFixed(2);
+  
+  // Calculate Gross Profit Total (carrier flat rate * profit percentage / 100)
+  const profitTotal = carrierFlatRate * (profitPercentage / 100);
+  profitTotalInput.value = profitTotal.toFixed(2);
   
   // Calculate All-In Rate (carrier rate * gross profit percentage)
   const grossProfitMultiplier = 1 + (profitPercentage / 100);
@@ -64,10 +64,6 @@ function calculateAll() {
   // Calculate Fuel Surcharge total (miles * fuel rate)
   const fuelTotal = miles * fuelRate;
   fuelTotalInput.value = fuelTotal.toFixed(2);
-  
-  // Calculate Fuel Percentage (fuel total / all-in total)
-  const fuelPercentage = (allInTotal > 0) ? (fuelTotal / allInTotal) * 100 : 0;
-  fuelPercentageInput.value = fuelPercentage.toFixed(1);
   
   // Calculate Linehaul Rate (All-In Rate - Fuel Surcharge per mile)
   const fuelSurchargePerMile = miles > 0 ? fuelTotal / miles : 0;
@@ -87,12 +83,8 @@ function calculateAll() {
   const stopsTotal = stops * stopFee;
   stopsTotalInput.value = stopsTotal.toFixed(2);
 
-  // Calculate linehaul percentage total
-  const linehaulPercentageTotal = (linehaulTotal * linehaulPercentage) / 100;
-  linehaulPercentageTotalInput.value = linehaulPercentageTotal.toFixed(2);
-
   // Calculate accessorial total
-  const accessorialTotal = loadFee + unloadFee + otherFee + linehaulPercentageTotal + stopsTotal;
+  const accessorialTotal = loadFee + unloadFee + otherFee + stopsTotal;
   accessorialTotalInput.value = accessorialTotal.toFixed(2);
 
   // Calculate invoice total
@@ -109,7 +101,7 @@ function addEventListeners() {
   const inputs = [
     milesInput, carrierFlatRateInput, profitPercentageInput, fuelRateInput, 
     stopsInput, loadFeeInput, unloadFeeInput, 
-    otherFeeInput, linehaulPercentageInput
+    otherFeeInput
   ];
 
   inputs.forEach(input => {
@@ -137,7 +129,6 @@ function resetForm() {
   loadFeeInput.value = defaultValues.loadFee;
   unloadFeeInput.value = defaultValues.unloadFee;
   otherFeeInput.value = defaultValues.otherFee;
-  linehaulPercentageInput.value = defaultValues.linehaulPercentage;
 
   calculateAll();
 }
