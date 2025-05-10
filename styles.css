@@ -1,0 +1,485 @@
+/* Font Face Definition */
+@font-face {
+  font-family: 'GeistMono';
+  src: url('fonts/GeistMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'GeistMono', monospace;
+  }
+  
+  body {
+    background-color: #121722;
+    color: #e0e0e0;
+    padding: 10px;
+    font-size: 11px;
+  }
+  
+  /* Sidebar specific styles */
+  .sidebar-body {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 10px;
+  }
+  
+  /* Header Styles */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #1a1f2e;
+    border-radius: 4px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logo {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+  
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header h1 {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+  
+  .header h2 {
+    font-size: 10px;
+    font-weight: normal;
+    color: #b0b0b0;
+    line-height: 1;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 5px;
+  }
+  
+  /* Button Styles */
+  button {
+    background-color: #1a1f2e;
+    color: #e0e0e0;
+    border: 1px solid #30374a;
+    border-radius: 3px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 11px;
+  }
+  
+  button:hover {
+    background-color: #22293a;
+  }
+  
+  button.primary {
+    background-color: #F2B01C;
+    color: #000;
+    border: none;
+  }
+  
+  button.primary:hover {
+    background-color: #ffbf2b;
+  }
+  
+  .gear-icon {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 14px;
+  }
+  
+  /* Input Styles */
+  .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .input-group label {
+    min-width: 120px;
+    font-weight: bold;
+  }
+  
+  input[type="number"],
+  input[type="text"] {
+    background-color: #1a1f2e;
+    color: #e0e0e0;
+    border: 1px solid #30374a;
+    border-radius: 3px;
+    padding: 4px 6px;
+    width: 100%;
+    text-align: right;
+    font-size: 11px;
+  }
+  
+  /* Fuel surcharge fields in red */
+  #fuel-rate,
+  #fuel-total,
+  #fuel-percentage {
+    color: rgb(239, 68, 68);
+  }
+  
+  /* Green fields for key totals */
+  #carrier-flat-rate,
+  #avg-trip-total,
+  #accessorial-total,
+  #invoice-total,
+  #per-mile-total {
+    color: rgb(34, 197, 94);
+  }
+  
+  input:focus {
+    outline: 1px solid #4a5070;
+  }
+  
+  /* Section Styles */
+  .section {
+    margin-bottom: 15px;
+    border-radius: 3px;
+  }
+  
+  .section-header {
+    background-color: #1a1f2e;
+    padding: 5px 10px;
+    font-weight: bold;
+    font-size: 11px;
+    text-transform: uppercase;
+    position: sticky;
+    top: 45px;
+    z-index: 5;
+  }
+  
+  /* Golden text for important headers and labels */
+  .section-header,
+  .total-row td:first-child,
+  .grand-total td:first-child {
+    color: #F2B01C;
+  }
+  
+  /* Table Styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 6px 6px;
+    text-align: left;
+    border-bottom: 1px solid #30374a;
+  }
+  
+  td.number-cell, th.number-cell {
+    text-align: right;
+  }
+  
+  tr:hover {
+    background-color: #1e2338;
+  }
+  
+  /* Totals Styles */
+  .total-row {
+    background-color: #232a3f;
+    font-weight: bold;
+  }
+  
+  .grand-total {
+    background-color: #292f47;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .dollar-input {
+    position: relative;
+  }
+  
+  .dollar-input:before {
+    content: "$";
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+  }
+  
+  .dollar-input input {
+    padding-left: 20px;
+  }
+  
+  .percent-input {
+    position: relative;
+  }
+  
+  .percent-input input {
+    padding-right: 20px;
+  }
+  
+  .percent-input:after {
+    content: "%";
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+  }
+  
+  .calculation-table {
+    width: 100%;
+  }
+  
+  .calculation-table td:nth-child(1) {
+    width: 45%;
+  }
+  
+  .calculation-table td:nth-child(2), 
+  .calculation-table td:nth-child(3) {
+    width: 120px;
+  }
+  
+  .calculation-table input {
+    width: 100%;
+    min-width: 80px;
+  }
+  
+  /* Checkbox styling */
+  .checkbox-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 20px;
+    margin-right: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 14px;
+    width: 14px;
+    background-color: #1a1f2e;
+    border: 1px solid #30374a;
+  }
+  
+  .checkbox-container:hover input ~ .checkmark {
+    background-color: #22293a;
+  }
+  
+  .checkbox-container input:checked ~ .checkmark {
+    background-color: #f2b01e;
+  }
+  
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  .checkbox-container .checkmark:after {
+    left: 4px;
+    top: 1px;
+    width: 3px;
+    height: 7px;
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  
+  /* Settings Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .modal-content {
+    background-color: #121722;
+    margin: 5% auto;
+    border: 1px solid #30374a;
+    border-radius: 4px;
+    width: 95%;
+    max-width: 360px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #1a1f2e;
+    border-bottom: 1px solid #30374a;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  
+  .modal-header h3 {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .close-modal {
+    color: #aaa;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close-modal:hover {
+    color: #f2b01e;
+  }
+  
+  .modal-body {
+    padding: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .modal-footer {
+    padding: 10px 15px;
+    background-color: #1a1f2e;
+    border-top: 1px solid #30374a;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .settings-section {
+    margin-bottom: 20px;
+  }
+  
+  .settings-section h4 {
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #c0c0c0;
+    border-bottom: 1px solid #30374a;
+    padding-bottom: 5px;
+  }
+  
+  .setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .setting-item label {
+    margin-right: 10px;
+  }
+  
+  .setting-item input[type="number"] {
+    width: 100px;
+  }
+  
+  .select-wrapper {
+    position: relative;
+    width: 150px;
+  }
+  
+  .select-wrapper select {
+    appearance: none;
+    background-color: #1a1f2e;
+    color: #e0e0e0;
+    border: 1px solid #30374a;
+    border-radius: 3px;
+    padding: 4px 8px;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .select-wrapper:after {
+    content: '▼';
+    font-size: 10px;
+    color: #888;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  .checkbox-item {
+    margin: 10px 0;
+  }
+  
+  .checkbox-item .checkbox-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Media queries for different sidebar widths */
+  @media (max-width: 320px) {
+    .input-group label {
+      min-width: 90px;
+    }
+    
+    th, td {
+      padding: 4px 4px;
+    }
+    
+    .calculation-table td:nth-child(2), 
+    .calculation-table td:nth-child(3) {
+      width: 90px;
+    }
+  }
+  
+  @media (min-width: 400px) {
+    .sidebar-body {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+  
+  /* Sticky footer for important actions */
+  .bottom-actions {
+    position: sticky;
+    bottom: 0;
+    background-color: #121722;
+    padding: 10px 0;
+    margin-top: 20px;
+    border-top: 1px solid #30374a;
+    display: flex;
+    justify-content: space-between;
+  }
