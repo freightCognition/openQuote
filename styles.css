@@ -43,6 +43,11 @@
     z-index: 10;
   }
   
+  /* Total Miles label style */
+  label[for="miles"] {
+    color: #F2B01C;
+  }
+  
   .header-brand {
     display: flex;
     align-items: center;
