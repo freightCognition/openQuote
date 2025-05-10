@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Rate Calculator",
-  "version": "1.0",
-  "description": "Freight rate calculator for linehaul.ai",
+  "name": "openQuote",
+  "version": "0.2.2",
+  "description": "Quick spot quotting for Freight Brokers, brought to you by freight.Cognition.",
   "action": {
-    "default_title": "Rate Calculator",
+    "default_title": "openQuote",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
