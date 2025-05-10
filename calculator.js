@@ -23,12 +23,12 @@ const resetBtn = document.getElementById('reset-btn');
 // Default values for reset
 const defaultValues = {
   miles: 1786,
-  carrierFlatRate: 2679.00,
-  profitPercentage: window.settings ? settings.defaultProfitMargin : 13.5,
-  fuelRate: window.settings ? settings.defaultFuelRate : 0.26,
+  carrierFlatRate: 2679,
+  profitPercentage: 13.5,
+  fuelRate: 0.26,
   stops: 0,
-  loadFee: window.settings ? settings.defaultLoadFee : 50.00,
-  otherFee: 0.00
+  loadFee: 50,
+  otherFee: 0
 };
 
 // Calculate all values
@@ -117,14 +117,24 @@ function addEventListeners() {
 
 // Reset form to default values
 function resetForm() {
-  milesInput.value = defaultValues.miles;
-  carrierFlatRateInput.value = defaultValues.carrierFlatRate;
-  profitPercentageInput.value = defaultValues.profitPercentage;
-  fuelRateInput.value = defaultValues.fuelRate;
-  stopsInput.value = defaultValues.stops;
-  loadFeeInput.value = defaultValues.loadFee;
-  otherFeeInput.value = defaultValues.otherFee;
+  // Reset most values to zero
+  milesInput.value = 0;
+  carrierFlatRateInput.value = 0;
+  profitPercentageInput.value = 0;
+  stopsInput.value = 0;
+  loadFeeInput.value = 0;
+  otherFeeInput.value = 0;
+  
+  // Only keep values from settings
+  if (window.settings) {
+    // Preserve fuel rate from settings
+    fuelRateInput.value = settings.defaultFuelRate;
+  } else {
+    // Reset fuel rate to zero if no settings
+    fuelRateInput.value = 0;
+  }
 
+  // Recalculate all values with the updated inputs
   calculateAll();
 }
 
