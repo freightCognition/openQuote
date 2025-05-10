@@ -56,7 +56,11 @@ function calculateAll() {
   
   // Calculate All-In Total (miles * all-in rate)
   const allInTotal = miles * allInRate;
-  allInTotalInput.value = allInTotal.toFixed(2);
+  if (allInTotalInput) {
+    allInTotalInput.value = allInTotal.toFixed(2);
+  } else {
+    avgTripTotalInput.value = allInTotal.toFixed(2);
+  }
   
   // Calculate Fuel Surcharge total (miles * fuel rate)
   const fuelTotal = miles * fuelRate;
@@ -73,10 +77,12 @@ function calculateAll() {
 
   // Calculate average trip total (linehaul total + fuel total)
   const avgTripTotal = linehaulTotal + fuelTotal;
-  avgTripTotalInput.value = avgTripTotal.toFixed(2);
+  if (!allInTotalInput) {
+    avgTripTotalInput.value = avgTripTotal.toFixed(2);
+  }
 
-  // Calculate stops total with stop fee from settings if available
-  const stopFee = window.settings ? settings.stopFee : 0;
+  // Calculate stops total with stop fee from settings
+  const stopFee = window.settings ? settings.stopFee : 50.00;
   const stopsTotal = stops * stopFee;
   stopsTotalInput.value = stopsTotal.toFixed(2);
 
@@ -106,13 +112,7 @@ function addEventListeners() {
 
   resetBtn.addEventListener('click', resetForm);
   
-  // Add gear icon event listener for settings
-  const gearIcon = document.querySelector('.gear-icon');
-  if (gearIcon) {
-    gearIcon.addEventListener('click', () => {
-      alert('Settings functionality will be implemented in a future update.');
-    });
-  }
+  // Settings button is now handled in settings.js
 }
 
 // Reset form to default values
