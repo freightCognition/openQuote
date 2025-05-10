@@ -155,13 +155,13 @@
   #per-mile-total,
   #all-in-rate,
   #linehaul-rate,
-  #linehaul-total,
-  #profit-total {
+  #linehaul-total {
     color: rgb(34, 197, 94);
   }
   
   /* White fields */
-  #carrier-flat-rate {
+  #carrier-flat-rate,
+  #profit-total {
     color: #ffffff;
   }
   
