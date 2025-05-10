@@ -9,9 +9,8 @@ const settings = {
   // Default fuel surcharge per mile
   defaultFuelRate: 0.26,
   
-  // Default load/unload fees
+  // Default load fee
   defaultLoadFee: 50.00,
-  defaultUnloadFee: 50.00,
   
   // Price formatting
   currency: '$',

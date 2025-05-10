@@ -14,7 +14,6 @@ const avgTripTotalInput = document.getElementById('avg-trip-total');
 const stopsInput = document.getElementById('stops');
 const stopsTotalInput = document.getElementById('stops-total');
 const loadFeeInput = document.getElementById('load-fee');
-const unloadFeeInput = document.getElementById('unload-fee');
 const otherFeeInput = document.getElementById('other-fee');
 const accessorialTotalInput = document.getElementById('accessorial-total');
 const perMileTotalInput = document.getElementById('per-mile-total');
@@ -29,7 +28,6 @@ const defaultValues = {
   fuelRate: window.settings ? settings.defaultFuelRate : 0.26,
   stops: 0,
   loadFee: window.settings ? settings.defaultLoadFee : 50.00,
-  unloadFee: window.settings ? settings.defaultUnloadFee : 50.00,
   otherFee: 0.00
 };
 
@@ -41,7 +39,6 @@ function calculateAll() {
   const fuelRate = parseFloat(fuelRateInput.value) || 0;
   const stops = parseInt(stopsInput.value) || 0;
   const loadFee = parseFloat(loadFeeInput.value) || 0;
-  const unloadFee = parseFloat(unloadFeeInput.value) || 0;
   const otherFee = parseFloat(otherFeeInput.value) || 0;
 
   // Calculate Carrier Rate per mile (flat rate ÷ miles)
@@ -84,7 +81,7 @@ function calculateAll() {
   stopsTotalInput.value = stopsTotal.toFixed(2);
 
   // Calculate accessorial total
-  const accessorialTotal = loadFee + unloadFee + otherFee + stopsTotal;
+  const accessorialTotal = loadFee + otherFee + stopsTotal;
   accessorialTotalInput.value = accessorialTotal.toFixed(2);
 
   // Calculate invoice total
@@ -100,8 +97,7 @@ function calculateAll() {
 function addEventListeners() {
   const inputs = [
     milesInput, carrierFlatRateInput, profitPercentageInput, fuelRateInput, 
-    stopsInput, loadFeeInput, unloadFeeInput, 
-    otherFeeInput
+    stopsInput, loadFeeInput, otherFeeInput
   ];
 
   inputs.forEach(input => {
@@ -127,7 +123,6 @@ function resetForm() {
   fuelRateInput.value = defaultValues.fuelRate;
   stopsInput.value = defaultValues.stops;
   loadFeeInput.value = defaultValues.loadFee;
-  unloadFeeInput.value = defaultValues.unloadFee;
   otherFeeInput.value = defaultValues.otherFee;
 
   calculateAll();
