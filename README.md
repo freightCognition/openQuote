@@ -10,7 +10,6 @@ Quick spot quoting for Freight Brokers. An open-source Chromium extension from f
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -43,6 +42,10 @@ To contribute or modify:
 3. Submit a pull request with your changes.
 
 ## Contributing
+
+## License
+
+AGPL-3.0-only
 
 Contributions are welcome! Please open an issue or submit a pull request to get started. See our [contributing guidelines](CONTRIBUTING.md) if available.
 
