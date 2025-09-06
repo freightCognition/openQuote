@@ -1,9 +1,9 @@
 /* Font Face Definition */
 @font-face {
-  font-family: 'GeistMono';
-  src: url('fonts/GeistMono-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
+    font-family: "GeistMono";
+    src: url("fonts/GeistMono-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* Global Styles */
@@ -11,26 +11,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'GeistMono', monospace;
-  }
-  
-  body {
+    font-family: "GeistMono", monospace;
+}
+
+body {
     background-color: #121722;
     color: #e0e0e0;
     padding: 10px;
     font-size: 11px;
-  }
-  
-  /* Sidebar specific styles */
-  .sidebar-body {
+}
+
+/* Sidebar specific styles */
+.sidebar-body {
     width: 100%;
     height: 100vh;
     overflow-y: auto;
     padding: 10px;
-  }
-  
-  /* Header Styles */
-  .header {
+}
+
+/* Header Styles */
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -41,51 +41,58 @@
     position: sticky;
     top: 0;
     z-index: 10;
-  }
-  
-  /* Total Miles label style */
-  label[for="miles"] {
-    color: #F2B01C;
-  }
-  
-  .header-brand {
+}
+
+/* Total Miles label style */
+label[for="miles"] {
+    color: #f2b01c;
+}
+
+.header-brand {
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  
-  .logo {
-    width: 40px;
-    height: 40px;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
     object-fit: contain;
-  }
-  
-  .brand-text {
+}
+
+.brand-text {
     display: flex;
     flex-direction: column;
-  }
-  
-  .header h1 {
-    font-size: 14px;
+}
+
+.header h1 {
+    font-size: 16px;
     font-weight: bold;
     line-height: 1.2;
-    margin-bottom: 2px;
-  }
-  
-  .header h2 {
-    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.header h2 {
+    font-size: 14px;
     font-weight: normal;
     color: #b0b0b0;
     line-height: 1;
-  }
-  
-  .actions {
+}
+
+.header h3 {
+    font-size: 12px;
+    font-weight: normal;
+    color: #b0b0b0;
+    line-height: 1;
+}
+
+.actions {
     display: flex;
     gap: 5px;
-  }
-  
-  /* Button Styles */
-  button {
+}
+
+/* Button Styles */
+button {
     background-color: #1a1f2e;
     color: #e0e0e0;
     border: 1px solid #30374a;
@@ -93,44 +100,44 @@
     padding: 4px 8px;
     cursor: pointer;
     font-size: 11px;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #22293a;
-  }
-  
-  button.primary {
-    background-color: #F2B01C;
+}
+
+button.primary {
+    background-color: #f2b01c;
     color: #000;
     border: none;
-  }
-  
-  button.primary:hover {
+}
+
+button.primary:hover {
     background-color: #ffbf2b;
-  }
-  
-  .gear-icon {
+}
+
+.gear-icon {
     background-color: transparent;
     border: none;
     cursor: pointer;
     color: #aaa;
     font-size: 14px;
-  }
-  
-  /* Input Styles */
-  .input-group {
+}
+
+/* Input Styles */
+.input-group {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-  }
-  
-  .input-group label {
+}
+
+.input-group label {
     min-width: 120px;
     font-weight: bold;
-  }
-  
-  input[type="number"],
-  input[type="text"] {
+}
+
+input[type="number"],
+input[type="text"] {
     background-color: #1a1f2e;
     color: #e0e0e0;
     border: 1px solid #30374a;
@@ -139,43 +146,43 @@
     width: 100%;
     text-align: right;
     font-size: 11px;
-  }
-  
-  /* Fuel surcharge fields in red */
-  #fuel-rate,
-  #fuel-total,
-  #fuel-percentage {
+}
+
+/* Fuel surcharge fields in red */
+#fuel-rate,
+#fuel-total,
+#fuel-percentage {
     color: rgb(239, 68, 68);
-  }
-  
-  /* Green fields for key totals */
-  #avg-trip-total,
-  #accessorial-total,
-  #invoice-total,
-  #per-mile-total,
-  #all-in-rate,
-  #linehaul-rate,
-  #linehaul-total {
+}
+
+/* Green fields for key totals */
+#avg-trip-total,
+#accessorial-total,
+#invoice-total,
+#per-mile-total,
+#all-in-rate,
+#linehaul-rate,
+#linehaul-total {
     color: rgb(34, 197, 94);
-  }
-  
-  /* White fields */
-  #carrier-flat-rate,
-  #profit-total {
+}
+
+/* White fields */
+#carrier-flat-rate,
+#profit-total {
     color: #ffffff;
-  }
-  
-  input:focus {
+}
+
+input:focus {
     outline: 1px solid #4a5070;
-  }
-  
-  /* Section Styles */
-  .section {
+}
+
+/* Section Styles */
+.section {
     margin-bottom: 15px;
     border-radius: 3px;
-  }
-  
-  .section-header {
+}
+
+.section-header {
     background-color: #1a1f2e;
     padding: 5px 10px;
     font-weight: bold;
@@ -184,124 +191,126 @@
     position: sticky;
     top: 45px;
     z-index: 5;
-  }
-  
-  /* Golden text for important headers and labels */
-  .section-header,
-  .total-row td:first-child,
-  .grand-total td:first-child,
-  .linehaul-row td:first-child {
-    color: #F2B01C;
-  }
-  
-  /* Table Styles */
-  table {
+}
+
+/* Golden text for important headers and labels */
+.section-header,
+.total-row td:first-child,
+.grand-total td:first-child,
+.linehaul-row td:first-child {
+    color: #f2b01c;
+}
+
+/* Table Styles */
+table {
     width: 100%;
     border-collapse: collapse;
-  }
-  
-  th, td {
+}
+
+th,
+td {
     padding: 6px 6px;
     text-align: left;
     border-bottom: 1px solid #30374a;
-  }
-  
-  td.number-cell, th.number-cell {
+}
+
+td.number-cell,
+th.number-cell {
     text-align: right;
-  }
-  
-  tr:hover {
+}
+
+tr:hover {
     background-color: #1e2338;
-  }
-  
-  /* Totals Styles */
-  .total-row {
+}
+
+/* Totals Styles */
+.total-row {
     background-color: #232a3f;
     font-weight: bold;
-  }
-  
-  .grand-total {
+}
+
+.grand-total {
     background-color: #292f47;
     color: #fff;
     font-weight: bold;
-  }
-  
-  .dollar-input {
+}
+
+.dollar-input {
     position: relative;
     margin: 0 2px;
-  }
-  
-  .dollar-input:before {
+}
+
+.dollar-input:before {
     content: "$";
     position: absolute;
     left: 8px;
     top: 50%;
     transform: translateY(-50%);
     color: #888;
-  }
-  
-  .dollar-input input {
+}
+
+.dollar-input input {
     padding-left: 20px;
-  }
-  
-  .percent-input {
+}
+
+.percent-input {
     position: relative;
     max-width: 80px;
-  }
-  
-  .percent-input input {
+}
+
+.percent-input input {
     padding-right: 20px;
     width: 100%;
     max-width: 80px;
-  }
-  
-  .percent-input:after {
+}
+
+.percent-input:after {
     content: "%";
     position: absolute;
     right: 8px;
     top: 50%;
     transform: translateY(-50%);
     color: #888;
-  }
-  
-  .calculation-table {
+}
+
+.calculation-table {
     width: 100%;
-  }
-  
-  .calculation-table td:nth-child(1) {
+}
+
+.calculation-table td:nth-child(1) {
     width: 45%;
-  }
-  
-  .calculation-table td:nth-child(2), 
-  .calculation-table td:nth-child(3) {
+}
+
+.calculation-table td:nth-child(2),
+.calculation-table td:nth-child(3) {
     width: 110px;
     max-width: 110px;
-  }
-  
-  .calculation-table input {
+}
+
+.calculation-table input {
     width: 100%;
     min-width: 80px;
-  }
-  
-  /* Checkbox styling */
-  .checkbox-container {
+}
+
+/* Checkbox styling */
+.checkbox-container {
     display: inline-block;
     position: relative;
     padding-left: 20px;
     margin-right: 12px;
     cursor: pointer;
     user-select: none;
-  }
-  
-  .checkbox-container input {
+}
+
+.checkbox-container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-  }
-  
-  .checkmark {
+}
+
+.checkmark {
     position: absolute;
     top: 0;
     left: 0;
@@ -309,27 +318,27 @@
     width: 14px;
     background-color: #1a1f2e;
     border: 1px solid #30374a;
-  }
-  
-  .checkbox-container:hover input ~ .checkmark {
+}
+
+.checkbox-container:hover input ~ .checkmark {
     background-color: #22293a;
-  }
-  
-  .checkbox-container input:checked ~ .checkmark {
+}
+
+.checkbox-container input:checked ~ .checkmark {
     background-color: #f2b01e;
-  }
-  
-  .checkmark:after {
+}
+
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
-  
-  .checkbox-container input:checked ~ .checkmark:after {
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
     display: block;
-  }
-  
-  .checkbox-container .checkmark:after {
+}
+
+.checkbox-container .checkmark:after {
     left: 4px;
     top: 1px;
     width: 3px;
@@ -337,10 +346,10 @@
     border: solid black;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
-  }
-  
-  /* Settings Modal Styles */
-  .modal {
+}
+
+/* Settings Modal Styles */
+.modal {
     display: none;
     position: fixed;
     z-index: 100;
@@ -349,9 +358,9 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background-color: #121722;
     margin: 5% auto;
     border: 1px solid #30374a;
@@ -359,9 +368,9 @@
     width: 95%;
     max-width: 360px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .modal-header {
+}
+
+.modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -370,31 +379,31 @@
     border-bottom: 1px solid #30374a;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-  }
-  
-  .modal-header h3 {
+}
+
+.modal-header h3 {
     margin: 0;
     font-size: 14px;
-  }
-  
-  .close-modal {
+}
+
+.close-modal {
     color: #aaa;
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
-  }
-  
-  .close-modal:hover {
+}
+
+.close-modal:hover {
     color: #f2b01e;
-  }
-  
-  .modal-body {
+}
+
+.modal-body {
     padding: 15px;
     max-height: 400px;
     overflow-y: auto;
-  }
-  
-  .modal-footer {
+}
+
+.modal-footer {
     padding: 10px 15px;
     background-color: #1a1f2e;
     border-top: 1px solid #30374a;
@@ -403,41 +412,41 @@
     gap: 10px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
-  }
-  
-  .settings-section {
+}
+
+.settings-section {
     margin-bottom: 20px;
-  }
-  
-  .settings-section h4 {
+}
+
+.settings-section h4 {
     font-size: 12px;
     margin-bottom: 10px;
     color: #c0c0c0;
     border-bottom: 1px solid #30374a;
     padding-bottom: 5px;
-  }
-  
-  .setting-item {
+}
+
+.setting-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
-  }
-  
-  .setting-item label {
+}
+
+.setting-item label {
     margin-right: 10px;
-  }
-  
-  .setting-item input[type="number"] {
+}
+
+.setting-item input[type="number"] {
     width: 100px;
-  }
-  
-  .select-wrapper {
+}
+
+.select-wrapper {
     position: relative;
     width: 150px;
-  }
-  
-  .select-wrapper select {
+}
+
+.select-wrapper select {
     appearance: none;
     background-color: #1a1f2e;
     color: #e0e0e0;
@@ -446,10 +455,10 @@
     padding: 4px 8px;
     width: 100%;
     cursor: pointer;
-  }
-  
-  .select-wrapper:after {
-    content: '▼';
+}
+
+.select-wrapper:after {
+    content: "▼";
     font-size: 10px;
     color: #888;
     position: absolute;
@@ -457,42 +466,43 @@
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-  }
-  
-  .checkbox-item {
+}
+
+.checkbox-item {
     margin: 10px 0;
-  }
-  
-  .checkbox-item .checkbox-container {
+}
+
+.checkbox-item .checkbox-container {
     display: flex;
     align-items: center;
-  }
-  
-  /* Media queries for different sidebar widths */
-  @media (max-width: 320px) {
+}
+
+/* Media queries for different sidebar widths */
+@media (max-width: 320px) {
     .input-group label {
-      min-width: 90px;
+        min-width: 90px;
     }
-    
-    th, td {
-      padding: 4px 4px;
+
+    th,
+    td {
+        padding: 4px 4px;
     }
-    
-    .calculation-table td:nth-child(2), 
+
+    .calculation-table td:nth-child(2),
     .calculation-table td:nth-child(3) {
-      width: 90px;
+        width: 90px;
     }
-  }
-  
-  @media (min-width: 400px) {
+}
+
+@media (min-width: 400px) {
     .sidebar-body {
-      max-width: 400px;
-      margin: 0 auto;
+        max-width: 400px;
+        margin: 0 auto;
     }
-  }
-  
-  /* Sticky footer for important actions */
-  .bottom-actions {
+}
+
+/* Sticky footer for important actions */
+.bottom-actions {
     position: sticky;
     bottom: 0;
     background-color: #121722;
@@ -501,45 +511,45 @@
     border-top: 1px solid #30374a;
     display: flex;
     justify-content: space-between;
-  }
+}
 
-  /* Linehaul Rate row styled like total-row */
-  .linehaul-row {
+/* Linehaul Rate row styled like total-row */
+.linehaul-row {
     background-color: #232a3f;
     font-weight: bold;
-  }
+}
 
-  /* Remove spinner arrows from all writable number inputs */
-  input[type="number"]:not([readonly])::-webkit-inner-spin-button, 
-  input[type="number"]:not([readonly])::-webkit-outer-spin-button {
+/* Remove spinner arrows from all writable number inputs */
+input[type="number"]:not([readonly])::-webkit-inner-spin-button,
+input[type="number"]:not([readonly])::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-  }
-  input[type="number"]:not([readonly]) {
+}
+input[type="number"]:not([readonly]) {
     -moz-appearance: textfield;
     appearance: textfield;
-  }
+}
 
-  .dollar-input input, 
-  .percent-input input {
+.dollar-input input,
+.percent-input input {
     text-align: right;
     width: 100%;
     min-width: 60px;
     max-width: 100px;
-  }
+}
 
-  /* Ensure all inputs in calculation tables are right-aligned */
-  .calculation-table input[type="number"] {
+/* Ensure all inputs in calculation tables are right-aligned */
+.calculation-table input[type="number"] {
     text-align: right;
-  }
+}
 
-  /* Carrier rate presentation */
-  #carrier-rate {
+/* Carrier rate presentation */
+#carrier-rate {
     font-size: 11px;
     color: #ffffff; /* Changed from orange to white */
-  }
+}
 
-  /* Make all read-only fields italic */
-  input[readonly] {
+/* Make all read-only fields italic */
+input[readonly] {
     font-style: italic;
-  }
+}

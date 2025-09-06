@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "openQuote",
   "version": "0.2.2",
-  "description": "Quick spot quoting for Freight Brokers. An open-source Chromium extension from freight.Cognition.",
+  "description": "Free & open-source tool for freight brokers to quote spot loads in the browser - in real-time. Built by ./freightCognition.",
   "action": {
     "default_title": "openQuote",
     "default_icon": {
