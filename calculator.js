@@ -92,8 +92,8 @@ function calculateAll() {
   const accessorialTotal = loadFee + otherFee + stopsTotal;
   accessorialTotalInput.value = accessorialTotal.toFixed(2);
 
-  // Calculate invoice total
-  const invoiceTotal = avgTripTotal + accessorialTotal;
+  // Calculate invoice total (all-in total + accessorials to include profit)
+  const invoiceTotal = allInTotal + accessorialTotal;
   invoiceTotalInput.value = invoiceTotal.toFixed(2);
 
   // Calculate per mile total
