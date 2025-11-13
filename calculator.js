@@ -45,14 +45,29 @@ function calculateAll() {
   const carrierRate = miles > 0 ? carrierFlatRate / miles : 0;
   carrierRateInput.value = carrierRate.toFixed(2);
   
-  // Calculate Gross Profit Total (carrier flat rate * profit percentage / 100)
-  const profitTotal = carrierFlatRate * (profitPercentage / 100);
-  profitTotalInput.value = profitTotal.toFixed(2);
+  // Calculate Fuel Surcharge total (miles * fuel rate)
+  const fuelTotal = miles * fuelRate;
+  fuelTotalInput.value = fuelTotal.toFixed(2);
   
-  // Calculate All-In Rate (carrier rate * gross profit percentage)
+  // Calculate Fuel Surcharge per mile
+  const fuelSurchargePerMile = miles > 0 ? fuelTotal / miles : 0;
+  
+  // Calculate Linehaul Rate (Carrier Rate - Fuel Surcharge per mile)
+  const linehaulRate = Math.max(0, carrierRate - fuelSurchargePerMile);
+  linehaulRateInput.value = linehaulRate.toFixed(2);
+  
+  // Calculate Linehaul Total (miles * linehaul rate)
+  const linehaulTotal = miles * linehaulRate;
+  linehaulTotalInput.value = linehaulTotal.toFixed(2);
+  
+  // Calculate All-In Rate (linehaul rate * gross profit percentage)
   const grossProfitMultiplier = 1 + (profitPercentage / 100);
-  const allInRate = carrierRate * grossProfitMultiplier;
+  const allInRate = linehaulRate * grossProfitMultiplier;
   allInRateInput.value = allInRate.toFixed(2);
+  
+  // Calculate Gross Profit Total (linehaul total * profit percentage / 100)
+  const profitTotal = linehaulTotal * (profitPercentage / 100);
+  profitTotalInput.value = profitTotal.toFixed(2);
   
   // Calculate All-In Total (miles * all-in rate)
   const allInTotal = miles * allInRate;
@@ -61,19 +76,6 @@ function calculateAll() {
   } else {
     avgTripTotalInput.value = allInTotal.toFixed(2);
   }
-  
-  // Calculate Fuel Surcharge total (miles * fuel rate)
-  const fuelTotal = miles * fuelRate;
-  fuelTotalInput.value = fuelTotal.toFixed(2);
-  
-  // Calculate Linehaul Rate (All-In Rate - Fuel Surcharge per mile)
-  const fuelSurchargePerMile = miles > 0 ? fuelTotal / miles : 0;
-  const linehaulRate = Math.max(0, allInRate - fuelSurchargePerMile);
-  linehaulRateInput.value = linehaulRate.toFixed(2);
-  
-  // Calculate Linehaul Total (miles * linehaul rate)
-  const linehaulTotal = miles * linehaulRate;
-  linehaulTotalInput.value = linehaulTotal.toFixed(2);
 
   // Calculate average trip total (linehaul total + fuel total)
   const avgTripTotal = linehaulTotal + fuelTotal;
