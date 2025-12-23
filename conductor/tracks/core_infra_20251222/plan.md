@@ -1,7 +1,7 @@
 # Track Plan: Core Infrastructure (SQLite & Keybindings)
 
 ## Phase 1: SQLite Infrastructure
-- [ ] Task: Setup SQLite WASM dependency and Web Worker skeleton
+- [x] Task: Setup SQLite WASM dependency and Web Worker skeleton 10d21b1
 - [ ] Task: Write Tests: Verify Web Worker initialization and message passing
 - [ ] Task: Implement SQLite initialization in Worker with OPFS
 - [ ] Task: Write Tests: Verify OPFS persistence across sessions
