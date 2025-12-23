@@ -33,8 +33,51 @@ if (typeof sqlite3InitModule !== 'undefined') {
 }
 
 self.onmessage = function(e) {
+
     console.log('Worker received message', e.data);
-    if (e.data && e.data.type === 'ping') {
+
+    if (!e.data) return;
+
+
+
+    if (e.data.type === 'ping') {
+
         self.postMessage({ type: 'pong' });
+
+    } else if (e.data.type === 'exec') {
+
+        if (!db) {
+
+            self.postMessage({ type: 'exec_error', error: 'DB not initialized' });
+
+            return;
+
+        }
+
+        try {
+
+            const resultRows = [];
+
+            db.exec({
+
+                sql: e.data.sql,
+
+                resultRows: resultRows,
+
+                rowMode: 'object'
+
+            });
+
+            self.postMessage({ type: 'exec_result', resultRows: resultRows });
+
+        } catch (e) {
+
+            console.error('Exec failed', e);
+
+            self.postMessage({ type: 'exec_error', error: e.message });
+
+        }
+
     }
+
 }
