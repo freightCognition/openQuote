@@ -4,7 +4,7 @@
 - [x] Task: Setup SQLite WASM dependency and Web Worker skeleton 10d21b1
 - [x] Task: Write Tests: Verify Web Worker initialization and message passing 52336df
 - [x] Task: Implement SQLite initialization in Worker with OPFS db3805d
-- [ ] Task: Write Tests: Verify OPFS persistence across sessions
+- [x] Task: Write Tests: Verify OPFS persistence across sessions 3b3739e
 - [ ] Task: Implement message bridge between UI and DB Worker
 - [ ] Task: Conductor - User Manual Verification 'SQLite Infrastructure' (Protocol in workflow.md)
 
