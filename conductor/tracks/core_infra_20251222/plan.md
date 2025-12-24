@@ -6,7 +6,7 @@
 - [x] Task: Implement SQLite initialization in Worker with OPFS db3805d
 - [x] Task: Write Tests: Verify OPFS persistence across sessions 3b3739e
 - [x] Task: Implement message bridge between UI and DB Worker a4de2e9
-- [ ] Task: Conductor - User Manual Verification 'SQLite Infrastructure' (Protocol in workflow.md)
+- [~] Task: Conductor - User Manual Verification 'SQLite Infrastructure' (Protocol in workflow.md)
 
 ## Phase 2: Data Layer & Schema
 - [ ] Task: Define Database Schema (Quotes and Settings tables)
