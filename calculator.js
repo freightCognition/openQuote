@@ -64,7 +64,8 @@ function calculateAll() {
 
   if (lastGPEdit === 'total') {
     // User edited profit-total → reverse-calculate GP%
-    profitTotal = parseFloat(profitTotalInput.value) || 0;
+    profitTotal = Math.max(0, parseFloat(profitTotalInput.value) || 0);
+    profitTotalInput.value = profitTotal.toFixed(2);
     allInTotal = profitTotal + carrierFlatRate;
     allInRate = miles > 0 ? allInTotal / miles : 0;
     profitPercentage = (carrierRate > 0 && allInRate > 0)
@@ -73,14 +74,19 @@ function calculateAll() {
     profitPercentageInput.value = profitPercentage.toFixed(2);
   } else {
     // User edited profit-percentage → forward-calculate (existing behavior)
+    profitPercentage = Math.max(0, profitPercentage);
+    profitPercentageInput.value = profitPercentage.toFixed(2);
     if (profitPercentage >= 100) {
       if (gpWarningRow) gpWarningRow.style.display = '';
       allInRateInput.value = '';
       profitTotalInput.value = '';
       if (allInTotalInput) allInTotalInput.value = '';
       avgTripTotalInput.value = '';
+      fuelTotalInput.value = '';
       linehaulRateInput.value = '';
       linehaulTotalInput.value = '';
+      stopsTotalInput.value = '';
+      accessorialTotalInput.value = '';
       perMileTotalInput.value = '';
       invoiceTotalInput.value = '';
       return;
@@ -88,7 +94,7 @@ function calculateAll() {
     const marginMultiplier = 1 / (1 - profitPercentage / 100);
     allInRate = carrierRate * marginMultiplier;
     allInTotal = miles * allInRate;
-    profitTotal = Math.max(0, allInTotal - carrierFlatRate);
+    profitTotal = allInTotal - carrierFlatRate;
     profitTotalInput.value = profitTotal.toFixed(2);
   }
 
@@ -183,6 +189,7 @@ function addEventListeners() {
 function resetForm() {
   // Reset most values to zero
   milesInput.value = 0;
+  carrierRateInput.value = 0;
   carrierFlatRateInput.value = 0;
   profitPercentageInput.value = 0;
   stopsInput.value = 0;
@@ -200,6 +207,7 @@ function resetForm() {
 
   // Reset tracking state
   lastGPEdit = 'percentage';
+  lastCarrierEdit = 'flat';
 
   // Recalculate all values with the updated inputs
   calculateAll();

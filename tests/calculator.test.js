@@ -15,6 +15,12 @@ function setInputs(values) {
   calculateAll();
 }
 
+function fireInput(id, value) {
+  const el = document.getElementById(id);
+  el.value = value;
+  el.dispatchEvent(new Event('input'));
+}
+
 function getOutput(id) {
   return parseFloat(document.getElementById(id).value);
 }
@@ -83,17 +89,21 @@ assert(
   `got "${document.getElementById('all-in-rate').value}"`
 );
 
-// Test 3b: Negative GP% (selling below cost) should produce sell < cost
+// Test 3b: Negative GP% input should be clamped to 0%
 setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': -10, 'fuel-rate': 0 });
-const expectedNegRate = (2000 / 1000) / (1 - (-0.10)); // 2.00 / 1.10 = 1.818...
 assert(
-  Math.abs(getOutput('all-in-rate') - expectedNegRate) < 0.01,
-  'Negative GP: sell rate below carrier rate',
-  `got ${getOutput('all-in-rate')}, expected ${expectedNegRate.toFixed(4)}`
+  getOutput('profit-percentage') === 0,
+  'Negative GP: clamped to 0%',
+  `got ${getOutput('profit-percentage')}`
+);
+assert(
+  Math.abs(getOutput('all-in-rate') - 2.00) < 0.01,
+  'Negative GP: allInRate equals carrierRate (0% margin)',
+  `got ${getOutput('all-in-rate')}`
 );
 assert(
   getOutput('profit-total') === 0,
-  'Negative GP: profitTotal clamped to 0',
+  'Negative GP: profitTotal = 0',
   `got ${getOutput('profit-total')}`
 );
 
@@ -129,9 +139,7 @@ assert(
 
 // Test 6: Editing carrier RPM should update flat rate
 setInputs({ miles: 1000, 'carrier-flat-rate': 0, 'profit-percentage': 0, 'fuel-rate': 0 });
-lastCarrierEdit = 'rpm';
-document.getElementById('carrier-rate').value = 2.50;
-calculateAll();
+fireInput('carrier-rate', 2.50);
 assert(
   Math.abs(getOutput('carrier-flat-rate') - 2500) < 0.01,
   'RPM edit: $2.50/mi × 1000mi = $2500 flat',
@@ -142,71 +150,61 @@ assert(
   'RPM edit: allInRate = carrierRate at 0% GP',
   `got ${getOutput('all-in-rate')}`
 );
-lastCarrierEdit = 'flat'; // reset for subsequent tests
+fireInput('carrier-flat-rate', getOutput('carrier-flat-rate')); // reset to flat mode
 
 // Test 7: Edit profit-total → GP% reverse-calculates correctly
 // $2679 carrier flat, 1786 miles → carrierRate = 1.50. Set profit-total = 362 → allInTotal = 3041, allInRate = 1.7029
 // GP% = (1 - 1.50 / 1.7029) * 100 ≈ 11.91%
 setInputs({ miles: 1786, 'carrier-flat-rate': 2679, 'profit-percentage': 0, 'fuel-rate': 0 });
-lastGPEdit = 'total';
-document.getElementById('profit-total').value = 362;
-calculateAll();
+fireInput('profit-total', 362);
 const expectedGP7 = (1 - (2679 / 1786) / ((362 + 2679) / 1786)) * 100;
 assert(
   Math.abs(getOutput('profit-percentage') - expectedGP7) < 0.1,
   'Reverse GP: $362 profit → GP% ≈ 11.91%',
   `got ${getOutput('profit-percentage')}, expected ~${expectedGP7.toFixed(2)}`
 );
-lastGPEdit = 'percentage'; // reset
+fireInput('profit-percentage', getOutput('profit-percentage')); // reset to percentage mode
 
 // Test 8: Round-trip — set GP% → read profit → set profit → GP% unchanged
 setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 20, 'fuel-rate': 0 });
 const profitFromGP = getOutput('profit-total'); // should be 500
-lastGPEdit = 'total';
-document.getElementById('profit-total').value = profitFromGP;
-calculateAll();
+fireInput('profit-total', profitFromGP);
 assert(
   Math.abs(getOutput('profit-percentage') - 20) < 0.1,
   'Round-trip: GP% → profit → GP% = 20%',
   `got ${getOutput('profit-percentage')}`
 );
-lastGPEdit = 'percentage'; // reset
+fireInput('profit-percentage', getOutput('profit-percentage')); // reset to percentage mode
 
 // Test 9: Edge case — miles=0 with profit-total edit (no crash)
 setInputs({ miles: 0, 'carrier-flat-rate': 0, 'profit-percentage': 0, 'fuel-rate': 0 });
-lastGPEdit = 'total';
-document.getElementById('profit-total').value = 100;
-calculateAll();
+fireInput('profit-total', 100);
 assert(
   getOutput('profit-percentage') === 0,
   'Edge: miles=0 profit-total edit → GP% = 0 (no crash)',
   `got ${getOutput('profit-percentage')}`
 );
-lastGPEdit = 'percentage'; // reset
+fireInput('profit-percentage', 0); // reset to percentage mode
 
 // Test 10: Edge case — carrierRate=0 with profit-total edit
 setInputs({ miles: 1000, 'carrier-flat-rate': 0, 'profit-percentage': 0, 'fuel-rate': 0 });
-lastGPEdit = 'total';
-document.getElementById('profit-total').value = 500;
-calculateAll();
+fireInput('profit-total', 500);
 assert(
   getOutput('profit-percentage') === 0,
   'Edge: carrierRate=0 profit-total edit → GP% = 0',
   `got ${getOutput('profit-percentage')}`
 );
-lastGPEdit = 'percentage'; // reset
+fireInput('profit-percentage', 0); // reset to percentage mode
 
 // Test 11: Edge case — profit-total=0 → GP%=0
 setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 0, 'fuel-rate': 0 });
-lastGPEdit = 'total';
-document.getElementById('profit-total').value = 0;
-calculateAll();
+fireInput('profit-total', 0);
 assert(
   Math.abs(getOutput('profit-percentage') - 0) < 0.01,
   'Edge: profit-total=0 → GP% = 0',
   `got ${getOutput('profit-percentage')}`
 );
-lastGPEdit = 'percentage'; // reset
+fireInput('profit-percentage', 0); // reset to percentage mode
 
 // Summary
 document.getElementById('results').textContent += `\nDone. ${window._testsFailed || 0} failures.\n`;
