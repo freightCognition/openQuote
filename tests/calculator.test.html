@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head><title>Calculator Tests</title></head>
+<body>
+<!-- Replicate minimal DOM structure needed by calculator.js -->
+<input id="miles" value="0">
+<input id="carrier-flat-rate" value="0">
+<input id="carrier-rate" value="0">
+<input id="profit-percentage" value="0">
+<input id="profit-total" value="0">
+<input id="all-in-rate" value="0">
+<input id="all-in-total" value="0">
+<input id="avg-trip-total" value="0">
+<input id="fuel-rate" value="0">
+<input id="fuel-total" value="0">
+<input id="linehaul-rate" value="0">
+<input id="linehaul-total" value="0">
+<input id="stops" value="0">
+<input id="stops-total" value="0">
+<input id="load-fee" value="0">
+<input id="other-fee" value="0">
+<input id="accessorial-total" value="0">
+<input id="per-mile-total" value="0">
+<input id="invoice-total" value="0">
+<table style="display:none"><tr id="gp-warning-row" style="display: none;"><td id="gp-warning"></td></tr></table>
+<button id="reset-btn">Reset</button>
+<pre id="results"></pre>
+<script>
+// Stub settings
+window.settings = { stopFee: 50.00, defaultFuelRate: 0.26 };
+</script>
+<script src="../calculator.js"></script>
+<script src="calculator.test.js"></script>
+</body>
+</html>

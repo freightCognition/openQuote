@@ -11,7 +11,7 @@
         <div class="header">
             <div class="header-brand">
                 <img
-                    src="icons/logo-transparent-96x96.png"
+                    src="icons/openQuote_icon.png"
                     alt="Logo"
                     class="logo"
                 />
@@ -55,7 +55,6 @@
                                 id="carrier-rate"
                                 value="1.50"
                                 step="0.01"
-                                readonly
                             />
                         </div>
                     </td>
@@ -89,10 +88,12 @@
                                 id="profit-total"
                                 value="361.66"
                                 step="0.01"
-                                readonly
                             />
                         </div>
                     </td>
+                </tr>
+                <tr id="gp-warning-row" class="warning-row" style="display: none;">
+                    <td colspan="3" id="gp-warning" class="warning-message">GP% must be less than 100%</td>
                 </tr>
                 <tr class="total-row">
                     <td>ALL-IN RATE</td>

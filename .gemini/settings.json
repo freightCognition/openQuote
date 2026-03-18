@@ -1,8 +1,0 @@
-{
-  "tools": {
-    "sandbox": "docker"
-  },
-  "privacy": {
-    "usageStatisticsEnabled": false
-  }
-}
