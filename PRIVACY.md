@@ -62,8 +62,8 @@ We may update this privacy policy from time to time. Any changes will be posted 
 
 If you have questions about this privacy policy, please contact us:
 
-- **GitHub:** https://github.com/freightCognition/openQuote
-- **Developer:** freightCognition
+- **GitHub:** https://github.com/linehaul.ai/openQuote
+- **Developer:** linehaul.ai
 
 ## Compliance
 

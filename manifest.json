@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "openQuote",
   "version": "0.3.0",
-  "description": "Free & open-source tool for freight brokers to quote spot loads in the browser - in real-time. Built by ./freightCognition.",
+  "description": "Free & open-source tool for freight brokers to quote spot loads in the browser - in real-time. Built by ./linehaul.ai.",
   "action": {
     "default_title": "openQuote",
     "default_icon": {

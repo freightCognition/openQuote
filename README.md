@@ -51,4 +51,4 @@ Contributions are welcome! Please open an issue or submit a pull request to get 
 
 ## Contact
 
-Maintained by [freightCognition](https://github.com/freightCognition).
+Maintained by [linehaul.ai](https://github.com/linehaul.ai).
