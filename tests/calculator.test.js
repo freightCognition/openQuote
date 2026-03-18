@@ -40,29 +40,47 @@ assert(
   `got ${getOutput('all-in-rate')}`
 );
 
-// Test 3: GP >= 100% should not produce Infinity or negative
+// Test 3: GP >= 100% should clear outputs and show warning
 setInputs({ miles: 100, 'carrier-flat-rate': 500, 'profit-percentage': 100, 'fuel-rate': 0 });
 assert(
-  isFinite(getOutput('all-in-rate')) && getOutput('all-in-rate') >= 0,
-  'GP=100%: allInRate no Infinity, non-negative',
-  `got ${getOutput('all-in-rate')}`
+  document.getElementById('all-in-rate').value === '',
+  'GP=100%: allInRate is cleared (empty)',
+  `got "${document.getElementById('all-in-rate').value}"`
 );
 assert(
-  getOutput('profit-total') >= 0,
-  'GP=100%: profitTotal non-negative (clamped)',
-  `got ${getOutput('profit-total')}`
+  document.getElementById('invoice-total').value === '',
+  'GP=100%: invoiceTotal is cleared (empty)',
+  `got "${document.getElementById('invoice-total').value}"`
+);
+assert(
+  document.getElementById('gp-warning-row').style.display !== 'none',
+  'GP=100%: warning row is visible',
+  `display is "${document.getElementById('gp-warning-row').style.display}"`
 );
 
 setInputs({ miles: 100, 'carrier-flat-rate': 500, 'profit-percentage': 150, 'fuel-rate': 0 });
 assert(
-  isFinite(getOutput('all-in-rate')) && getOutput('all-in-rate') >= 0,
-  'GP=150%: allInRate no Infinity, non-negative',
-  `got ${getOutput('all-in-rate')}`
+  document.getElementById('all-in-rate').value === '',
+  'GP=150%: allInRate is cleared (empty)',
+  `got "${document.getElementById('all-in-rate').value}"`
 );
 assert(
-  getOutput('profit-total') >= 0,
-  'GP=150%: profitTotal non-negative (clamped)',
-  `got ${getOutput('profit-total')}`
+  document.getElementById('gp-warning-row').style.display !== 'none',
+  'GP=150%: warning row is visible',
+  `display is "${document.getElementById('gp-warning-row').style.display}"`
+);
+
+// Test 3c: Warning hides when GP% returns to valid value
+setInputs({ miles: 100, 'carrier-flat-rate': 500, 'profit-percentage': 20, 'fuel-rate': 0 });
+assert(
+  document.getElementById('gp-warning-row').style.display === 'none',
+  'GP=20%: warning row is hidden after valid input',
+  `display is "${document.getElementById('gp-warning-row').style.display}"`
+);
+assert(
+  document.getElementById('all-in-rate').value !== '',
+  'GP=20%: allInRate is populated after valid input',
+  `got "${document.getElementById('all-in-rate').value}"`
 );
 
 // Test 3b: Negative GP% (selling below cost) should produce sell < cost
@@ -125,6 +143,70 @@ assert(
   `got ${getOutput('all-in-rate')}`
 );
 lastCarrierEdit = 'flat'; // reset for subsequent tests
+
+// Test 7: Edit profit-total → GP% reverse-calculates correctly
+// $2679 carrier flat, 1786 miles → carrierRate = 1.50. Set profit-total = 362 → allInTotal = 3041, allInRate = 1.7029
+// GP% = (1 - 1.50 / 1.7029) * 100 ≈ 11.91%
+setInputs({ miles: 1786, 'carrier-flat-rate': 2679, 'profit-percentage': 0, 'fuel-rate': 0 });
+lastGPEdit = 'total';
+document.getElementById('profit-total').value = 362;
+calculateAll();
+const expectedGP7 = (1 - (2679 / 1786) / ((362 + 2679) / 1786)) * 100;
+assert(
+  Math.abs(getOutput('profit-percentage') - expectedGP7) < 0.1,
+  'Reverse GP: $362 profit → GP% ≈ 11.91%',
+  `got ${getOutput('profit-percentage')}, expected ~${expectedGP7.toFixed(2)}`
+);
+lastGPEdit = 'percentage'; // reset
+
+// Test 8: Round-trip — set GP% → read profit → set profit → GP% unchanged
+setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 20, 'fuel-rate': 0 });
+const profitFromGP = getOutput('profit-total'); // should be 500
+lastGPEdit = 'total';
+document.getElementById('profit-total').value = profitFromGP;
+calculateAll();
+assert(
+  Math.abs(getOutput('profit-percentage') - 20) < 0.1,
+  'Round-trip: GP% → profit → GP% = 20%',
+  `got ${getOutput('profit-percentage')}`
+);
+lastGPEdit = 'percentage'; // reset
+
+// Test 9: Edge case — miles=0 with profit-total edit (no crash)
+setInputs({ miles: 0, 'carrier-flat-rate': 0, 'profit-percentage': 0, 'fuel-rate': 0 });
+lastGPEdit = 'total';
+document.getElementById('profit-total').value = 100;
+calculateAll();
+assert(
+  getOutput('profit-percentage') === 0,
+  'Edge: miles=0 profit-total edit → GP% = 0 (no crash)',
+  `got ${getOutput('profit-percentage')}`
+);
+lastGPEdit = 'percentage'; // reset
+
+// Test 10: Edge case — carrierRate=0 with profit-total edit
+setInputs({ miles: 1000, 'carrier-flat-rate': 0, 'profit-percentage': 0, 'fuel-rate': 0 });
+lastGPEdit = 'total';
+document.getElementById('profit-total').value = 500;
+calculateAll();
+assert(
+  getOutput('profit-percentage') === 0,
+  'Edge: carrierRate=0 profit-total edit → GP% = 0',
+  `got ${getOutput('profit-percentage')}`
+);
+lastGPEdit = 'percentage'; // reset
+
+// Test 11: Edge case — profit-total=0 → GP%=0
+setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 0, 'fuel-rate': 0 });
+lastGPEdit = 'total';
+document.getElementById('profit-total').value = 0;
+calculateAll();
+assert(
+  Math.abs(getOutput('profit-percentage') - 0) < 0.01,
+  'Edge: profit-total=0 → GP% = 0',
+  `got ${getOutput('profit-percentage')}`
+);
+lastGPEdit = 'percentage'; // reset
 
 // Summary
 document.getElementById('results').textContent += `\nDone. ${window._testsFailed || 0} failures.\n`;

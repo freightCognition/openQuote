@@ -23,6 +23,9 @@ const resetBtn = document.getElementById('reset-btn');
 // Track which carrier field was last edited: 'flat' (default) or 'rpm'
 let lastCarrierEdit = 'flat';
 
+// Track which GP field was last edited: 'percentage' (default) or 'total'
+let lastGPEdit = 'percentage';
+
 // Default values for reset
 const defaultValues = {
   miles: 1786,
@@ -38,7 +41,7 @@ const defaultValues = {
 function calculateAll() {
   const miles = parseFloat(milesInput.value) || 0;
   let carrierFlatRate = parseFloat(carrierFlatRateInput.value) || 0;
-  const profitPercentage = parseFloat(profitPercentageInput.value) || 0;
+  let profitPercentage = parseFloat(profitPercentageInput.value) || 0;
   const fuelRate = parseFloat(fuelRateInput.value) || 0;
   const stops = parseInt(stopsInput.value) || 0;
   const loadFee = parseFloat(loadFeeInput.value) || 0;
@@ -55,22 +58,49 @@ function calculateAll() {
     carrierRateInput.value = carrierRate.toFixed(2);
   }
   
-  // Calculate All-In Rate using true gross profit margin: sellPrice = cost / (1 - GP%)
-  const marginMultiplier = profitPercentage >= 100 ? 0 : 1 / (1 - profitPercentage / 100);
-  const allInRate = carrierRate * marginMultiplier;
+  // Bidirectional GP sync: derive % from total or total from %
+  let allInRate, allInTotal, profitTotal;
+  const gpWarningRow = document.getElementById('gp-warning-row');
+
+  if (lastGPEdit === 'total') {
+    // User edited profit-total → reverse-calculate GP%
+    profitTotal = parseFloat(profitTotalInput.value) || 0;
+    allInTotal = profitTotal + carrierFlatRate;
+    allInRate = miles > 0 ? allInTotal / miles : 0;
+    profitPercentage = (carrierRate > 0 && allInRate > 0)
+      ? (1 - carrierRate / allInRate) * 100
+      : 0;
+    profitPercentageInput.value = profitPercentage.toFixed(2);
+  } else {
+    // User edited profit-percentage → forward-calculate (existing behavior)
+    if (profitPercentage >= 100) {
+      if (gpWarningRow) gpWarningRow.style.display = '';
+      allInRateInput.value = '';
+      profitTotalInput.value = '';
+      if (allInTotalInput) allInTotalInput.value = '';
+      avgTripTotalInput.value = '';
+      linehaulRateInput.value = '';
+      linehaulTotalInput.value = '';
+      perMileTotalInput.value = '';
+      invoiceTotalInput.value = '';
+      return;
+    }
+    const marginMultiplier = 1 / (1 - profitPercentage / 100);
+    allInRate = carrierRate * marginMultiplier;
+    allInTotal = miles * allInRate;
+    profitTotal = Math.max(0, allInTotal - carrierFlatRate);
+    profitTotalInput.value = profitTotal.toFixed(2);
+  }
+
+  if (gpWarningRow) gpWarningRow.style.display = 'none';
   allInRateInput.value = allInRate.toFixed(2);
 
   // Calculate All-In Total (miles * all-in rate)
-  const allInTotal = miles * allInRate;
   if (allInTotalInput) {
     allInTotalInput.value = allInTotal.toFixed(2);
   } else {
     avgTripTotalInput.value = allInTotal.toFixed(2);
   }
-
-  // Gross Profit Total = sell price - carrier cost (clamped to 0 when GP% >= 100 guard triggers)
-  const profitTotal = Math.max(0, allInTotal - carrierFlatRate);
-  profitTotalInput.value = profitTotal.toFixed(2);
   
   // Calculate Fuel Surcharge total (miles * fuel rate)
   const fuelTotal = miles * fuelRate;
@@ -112,7 +142,7 @@ function calculateAll() {
 // Add event listeners to all inputs
 function addEventListeners() {
   const inputs = [
-    milesInput, carrierFlatRateInput, profitPercentageInput, fuelRateInput,
+    fuelRateInput,
     stopsInput, loadFeeInput, otherFeeInput
   ];
 
@@ -120,16 +150,28 @@ function addEventListeners() {
     input.addEventListener('input', calculateAll);
   });
 
-  // Track which carrier field the user is editing
+  // GP-related inputs set lastGPEdit before calculating
+  profitPercentageInput.addEventListener('input', () => {
+    lastGPEdit = 'percentage';
+    calculateAll();
+  });
+  profitTotalInput.addEventListener('input', () => {
+    lastGPEdit = 'total';
+    calculateAll();
+  });
+
+  // Carrier-related inputs set lastCarrierEdit before calculating
   carrierRateInput.addEventListener('input', () => {
     lastCarrierEdit = 'rpm';
     calculateAll();
   });
   carrierFlatRateInput.addEventListener('input', () => {
     lastCarrierEdit = 'flat';
+    calculateAll();
   });
   milesInput.addEventListener('input', () => {
     lastCarrierEdit = 'flat';
+    calculateAll();
   });
 
   resetBtn.addEventListener('click', resetForm);
@@ -155,6 +197,9 @@ function resetForm() {
     // Reset fuel rate to zero if no settings
     fuelRateInput.value = 0;
   }
+
+  // Reset tracking state
+  lastGPEdit = 'percentage';
 
   // Recalculate all values with the updated inputs
   calculateAll();
