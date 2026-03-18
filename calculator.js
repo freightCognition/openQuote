@@ -45,15 +45,11 @@ function calculateAll() {
   const carrierRate = miles > 0 ? carrierFlatRate / miles : 0;
   carrierRateInput.value = carrierRate.toFixed(2);
   
-  // Calculate Gross Profit Total (carrier flat rate * profit percentage / 100)
-  const profitTotal = carrierFlatRate * (profitPercentage / 100);
-  profitTotalInput.value = profitTotal.toFixed(2);
-  
-  // Calculate All-In Rate (carrier rate * gross profit percentage)
-  const grossProfitMultiplier = 1 + (profitPercentage / 100);
-  const allInRate = carrierRate * grossProfitMultiplier;
+  // Calculate All-In Rate using true gross profit margin: sellPrice = cost / (1 - GP%)
+  const marginMultiplier = profitPercentage >= 100 ? 0 : 1 / (1 - profitPercentage / 100);
+  const allInRate = carrierRate * marginMultiplier;
   allInRateInput.value = allInRate.toFixed(2);
-  
+
   // Calculate All-In Total (miles * all-in rate)
   const allInTotal = miles * allInRate;
   if (allInTotalInput) {
@@ -61,6 +57,10 @@ function calculateAll() {
   } else {
     avgTripTotalInput.value = allInTotal.toFixed(2);
   }
+
+  // Gross Profit Total = sell price - carrier cost (clamped to 0 when GP% >= 100 guard triggers)
+  const profitTotal = Math.max(0, allInTotal - carrierFlatRate);
+  profitTotalInput.value = profitTotal.toFixed(2);
   
   // Calculate Fuel Surcharge total (miles * fuel rate)
   const fuelTotal = miles * fuelRate;
