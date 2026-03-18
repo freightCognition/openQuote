@@ -20,6 +20,9 @@ const perMileTotalInput = document.getElementById('per-mile-total');
 const invoiceTotalInput = document.getElementById('invoice-total');
 const resetBtn = document.getElementById('reset-btn');
 
+// Track which carrier field was last edited: 'flat' (default) or 'rpm'
+let lastCarrierEdit = 'flat';
+
 // Default values for reset
 const defaultValues = {
   miles: 1786,
@@ -34,16 +37,23 @@ const defaultValues = {
 // Calculate all values
 function calculateAll() {
   const miles = parseFloat(milesInput.value) || 0;
-  const carrierFlatRate = parseFloat(carrierFlatRateInput.value) || 0;
+  let carrierFlatRate = parseFloat(carrierFlatRateInput.value) || 0;
   const profitPercentage = parseFloat(profitPercentageInput.value) || 0;
   const fuelRate = parseFloat(fuelRateInput.value) || 0;
   const stops = parseInt(stopsInput.value) || 0;
   const loadFee = parseFloat(loadFeeInput.value) || 0;
   const otherFee = parseFloat(otherFeeInput.value) || 0;
 
-  // Calculate Carrier Rate per mile (flat rate ÷ miles)
-  const carrierRate = miles > 0 ? carrierFlatRate / miles : 0;
-  carrierRateInput.value = carrierRate.toFixed(2);
+  // Sync carrier RPM ↔ flat rate based on which was last edited
+  let carrierRate;
+  if (lastCarrierEdit === 'rpm') {
+    carrierRate = parseFloat(carrierRateInput.value) || 0;
+    carrierFlatRate = carrierRate * miles;
+    carrierFlatRateInput.value = carrierFlatRate.toFixed(2);
+  } else {
+    carrierRate = miles > 0 ? carrierFlatRate / miles : 0;
+    carrierRateInput.value = carrierRate.toFixed(2);
+  }
   
   // Calculate All-In Rate using true gross profit margin: sellPrice = cost / (1 - GP%)
   const marginMultiplier = profitPercentage >= 100 ? 0 : 1 / (1 - profitPercentage / 100);
@@ -102,12 +112,24 @@ function calculateAll() {
 // Add event listeners to all inputs
 function addEventListeners() {
   const inputs = [
-    milesInput, carrierFlatRateInput, profitPercentageInput, fuelRateInput, 
+    milesInput, carrierFlatRateInput, profitPercentageInput, fuelRateInput,
     stopsInput, loadFeeInput, otherFeeInput
   ];
 
   inputs.forEach(input => {
     input.addEventListener('input', calculateAll);
+  });
+
+  // Track which carrier field the user is editing
+  carrierRateInput.addEventListener('input', () => {
+    lastCarrierEdit = 'rpm';
+    calculateAll();
+  });
+  carrierFlatRateInput.addEventListener('input', () => {
+    lastCarrierEdit = 'flat';
+  });
+  milesInput.addEventListener('input', () => {
+    lastCarrierEdit = 'flat';
   });
 
   resetBtn.addEventListener('click', resetForm);

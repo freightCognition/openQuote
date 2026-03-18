@@ -109,5 +109,22 @@ assert(
   `got ${getOutput('invoice-total')}, expected ~${expectedInvoice.toFixed(2)}`
 );
 
+// Test 6: Editing carrier RPM should update flat rate
+setInputs({ miles: 1000, 'carrier-flat-rate': 0, 'profit-percentage': 0, 'fuel-rate': 0 });
+lastCarrierEdit = 'rpm';
+document.getElementById('carrier-rate').value = 2.50;
+calculateAll();
+assert(
+  Math.abs(getOutput('carrier-flat-rate') - 2500) < 0.01,
+  'RPM edit: $2.50/mi × 1000mi = $2500 flat',
+  `got ${getOutput('carrier-flat-rate')}`
+);
+assert(
+  Math.abs(getOutput('all-in-rate') - 2.50) < 0.01,
+  'RPM edit: allInRate = carrierRate at 0% GP',
+  `got ${getOutput('all-in-rate')}`
+);
+lastCarrierEdit = 'flat'; // reset for subsequent tests
+
 // Summary
 document.getElementById('results').textContent += `\nDone. ${window._testsFailed || 0} failures.\n`;
