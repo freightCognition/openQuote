@@ -21,9 +21,15 @@ function fireInput(id, value) {
   el.dispatchEvent(new Event('input'));
 }
 
+function fireBlur(id) {
+  document.getElementById(id).dispatchEvent(new Event('blur'));
+}
+
 function getOutput(id) {
   return parseFloat(document.getElementById(id).value);
 }
+
+init();
 
 // Test 1: Basic margin math — 17.5% GP on $1942 cost, 1000 miles
 setInputs({ miles: 1000, 'carrier-flat-rate': 1942, 'profit-percentage': 17.5, 'fuel-rate': 0 });
@@ -89,11 +95,18 @@ assert(
   `got "${document.getElementById('all-in-rate').value}"`
 );
 
-// Test 3b: Negative GP% input should be clamped to 0%
-setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': -10, 'fuel-rate': 0 });
+// Test 3b: Negative GP% input should be clamped to 0% on blur
+setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 20, 'fuel-rate': 0 });
+fireInput('profit-percentage', -10);
+assert(
+  document.getElementById('profit-percentage').value === '-10',
+  'Negative GP: raw user input is preserved while typing',
+  `got "${document.getElementById('profit-percentage').value}"`
+);
+fireBlur('profit-percentage');
 assert(
   getOutput('profit-percentage') === 0,
-  'Negative GP: clamped to 0%',
+  'Negative GP: clamped to 0% on blur',
   `got ${getOutput('profit-percentage')}`
 );
 assert(
@@ -205,6 +218,45 @@ assert(
   `got ${getOutput('profit-percentage')}`
 );
 fireInput('profit-percentage', 0); // reset to percentage mode
+
+// Test 11b: Negative GP$ input should be clamped to $0 on blur
+setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 20, 'fuel-rate': 0 });
+fireInput('profit-total', -200);
+assert(
+  document.getElementById('profit-total').value === '-200',
+  'Negative GP$: raw user input is preserved while typing',
+  `got "${document.getElementById('profit-total').value}"`
+);
+fireBlur('profit-total');
+assert(
+  getOutput('profit-total') === 0,
+  'Negative GP$: clamped to $0 on blur',
+  `got ${getOutput('profit-total')}`
+);
+assert(
+  getOutput('profit-percentage') === 0,
+  'Negative GP$: GP% recalculates from clamped $0',
+  `got ${getOutput('profit-percentage')}`
+);
+fireInput('profit-percentage', 0); // reset to percentage mode
+
+// Test 12: GP% field should NOT be reformatted while user is typing
+setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 20, 'fuel-rate': 0 });
+fireInput('profit-percentage', '13.');
+assert(
+  document.getElementById('profit-percentage').value === '13.',
+  'Test 12: GP% field preserves raw user input (no reformat on keystroke)',
+  'got "' + document.getElementById('profit-percentage').value + '", expected "13."'
+);
+
+// Test 13: GP$ field should NOT be reformatted while user is typing
+setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 20, 'fuel-rate': 0 });
+fireInput('profit-total', '500.');
+assert(
+  document.getElementById('profit-total').value === '500.',
+  'Test 13: GP$ field preserves raw user input (no reformat on keystroke)',
+  'got "' + document.getElementById('profit-total').value + '", expected "500."'
+);
 
 // Summary
 document.getElementById('results').textContent += `\nDone. ${window._testsFailed || 0} failures.\n`;
