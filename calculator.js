@@ -159,7 +159,19 @@ function addEventListeners() {
     lastGPEdit = 'percentage';
     calculateAll();
   });
+  profitPercentageInput.addEventListener('blur', () => {
+    const v = Math.max(0, parseFloat(profitPercentageInput.value) || 0);
+    profitPercentageInput.value = v.toFixed(2);
+    lastGPEdit = 'percentage';
+    calculateAll();
+  });
   profitTotalInput.addEventListener('input', () => {
+    lastGPEdit = 'total';
+    calculateAll();
+  });
+  profitTotalInput.addEventListener('blur', () => {
+    const v = Math.max(0, parseFloat(profitTotalInput.value) || 0);
+    profitTotalInput.value = v.toFixed(2);
     lastGPEdit = 'total';
     calculateAll();
   });
