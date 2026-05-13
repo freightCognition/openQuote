@@ -206,5 +206,23 @@ assert(
 );
 fireInput('profit-percentage', 0); // reset to percentage mode
 
+// Test 12: GP% field should NOT be reformatted while user is typing
+setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 20, 'fuel-rate': 0 });
+fireInput('profit-percentage', '13.');
+assert(
+  document.getElementById('profit-percentage').value === '13.',
+  'Test 12: GP% field preserves raw user input (no reformat on keystroke)',
+  'got "' + document.getElementById('profit-percentage').value + '", expected "13."'
+);
+
+// Test 13: GP$ field should NOT be reformatted while user is typing
+setInputs({ miles: 1000, 'carrier-flat-rate': 2000, 'profit-percentage': 20, 'fuel-rate': 0 });
+fireInput('profit-total', '500.');
+assert(
+  document.getElementById('profit-total').value === '500.',
+  'Test 13: GP$ field preserves raw user input (no reformat on keystroke)',
+  'got "' + document.getElementById('profit-total').value + '", expected "500."'
+);
+
 // Summary
 document.getElementById('results').textContent += `\nDone. ${window._testsFailed || 0} failures.\n`;

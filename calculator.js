@@ -65,7 +65,6 @@ function calculateAll() {
   if (lastGPEdit === 'total') {
     // User edited profit-total → reverse-calculate GP%
     profitTotal = Math.max(0, parseFloat(profitTotalInput.value) || 0);
-    profitTotalInput.value = profitTotal.toFixed(2);
     allInTotal = profitTotal + carrierFlatRate;
     allInRate = miles > 0 ? allInTotal / miles : 0;
     profitPercentage = (carrierRate > 0 && allInRate > 0)
@@ -75,7 +74,6 @@ function calculateAll() {
   } else {
     // User edited profit-percentage → forward-calculate (existing behavior)
     profitPercentage = Math.max(0, profitPercentage);
-    profitPercentageInput.value = profitPercentage.toFixed(2);
     if (profitPercentage >= 100) {
       if (gpWarningRow) gpWarningRow.style.display = '';
       allInRateInput.value = '';
